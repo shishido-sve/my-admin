@@ -1,43 +1,50 @@
-/* eslint-disable */
+// import React from "react";
+import { Link, useLocation } from "react-router-dom";
+import { MdHome, MdShoppingCart, MdPeople } from "react-icons/md";
 
-import { HiX } from "react-icons/hi";
-import Links from "./components/Links";
+const Sidebar = () => {
+  const location = useLocation();
 
-import SidebarCard from "components/sidebar/componentsrtl/SidebarCard";
-import routes from "routes.js";
+  const menuItems = [
+    {
+      name: "メインダッシュボード",
+      icon: <MdHome className="h-6 w-6" />,
+      path: "/admin/default"
+    },
+    {
+      name: "売上管理",
+      icon: <MdShoppingCart className="h-6 w-6" />,
+      path: "/admin/sales"
+    },
+    {
+      name: "ユーザー管理",
+      icon: <MdPeople className="h-6 w-6" />,
+      path: "/admin/users"
+    }
+  ];
 
-const Sidebar = ({ open, onClose }) => {
   return (
-    <div
-      className={`sm:none duration-175 linear fixed !z-50 flex min-h-full flex-col bg-white pb-10 shadow-2xl shadow-white/5 transition-all dark:!bg-navy-800 dark:text-white md:!z-50 lg:!z-50 xl:!z-0 ${
-        open ? "translate-x-0" : "-translate-x-96"
-      }`}
-    >
-      <span
-        className="absolute top-4 right-4 block cursor-pointer xl:hidden"
-        onClick={onClose}
-      >
-        <HiX />
-      </span>
-
-      <div className={`mx-[56px] mt-[50px] flex items-center`}>
-        <div className="mt-1 ml-1 h-2.5 font-poppins text-[26px] font-bold uppercase text-navy-700 dark:text-white">
-          Horizon <span class="font-medium">FREE</span>
-        </div>
-      </div>
-      <div class="mt-[58px] mb-7 h-px bg-gray-300 dark:bg-white/30" />
-      {/* Nav item */}
-
-      <ul className="mb-auto pt-1">
-        <Links routes={routes} />
-      </ul>
-
-      {/* Free Horizon Card */}
-      <div className="flex justify-center">
-        <SidebarCard />
+    <div className="fixed left-0 top-0 z-50 h-full w-64 bg-white shadow-sm">
+      {/* ロゴ部分 */}
+      <div className="p-4">
+        <h1 className="text-xl font-bold text-gray-800">HORIZON FREE</h1>
       </div>
 
-      {/* Nav item end */}
+      {/* メニューリスト */}
+      <nav className="mt-8">
+        {menuItems.map((item, index) => (
+          <Link
+            key={index}
+            to={item.path}
+            className={`flex items-center space-x-3 px-6 py-3 text-gray-600 transition-colors hover:bg-gray-50 ${
+              location.pathname === item.path ? "bg-gray-50 text-blue-600" : ""
+            }`}
+          >
+            <span>{item.icon}</span>
+            <span>{item.name}</span>
+          </Link>
+        ))}
+      </nav>
     </div>
   );
 };
